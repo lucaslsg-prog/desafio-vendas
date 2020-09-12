@@ -12,9 +12,9 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ClienteDataTable $clienteDataTable)
     {
-        //
+        return $clienteDataTable->render('cliente.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        return view('cliente.form');
     }
 
     /**
@@ -33,9 +33,19 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClienteRequest $request)
     {
-        //
+        $cliente = ClienteService::store($request->all());
+
+        if ($cliente) {
+            flash('Cliente cadastrado com sucesso')->success();
+
+            return back();
+        }
+
+        flash('Erro ao salvar o cliente')->error();
+
+        return back()->withInput();
     }
 
     /**
@@ -57,7 +67,7 @@ class ClienteController extends Controller
      */
     public function edit(Cliente $cliente)
     {
-        //
+        return view('cliente.form', compact('cliente'));
     }
 
     /**

@@ -241,7 +241,12 @@ return [
             'url' => 'produtos',
             'text' => 'Produtos',
             'icon' => 'fas fa-boxes'
-        ]
+        ],
+        [
+            'url' => 'clientes',
+            'text' => 'Clientes',
+            'icon' => 'fas fa-users'
+        ],
         
     ],
 

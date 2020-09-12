@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <a href="{{ route('fabricantes.create') }}"class="btn btn-primary">Cadastrar Novo</a>
+    {!! $dataTable->table() !!}
 @stop
 
 @section('css')
@@ -15,5 +15,5 @@
 @stop
 
 @section('js')
-   
+    {!! $dataTable->scripts() !!}
 @stop

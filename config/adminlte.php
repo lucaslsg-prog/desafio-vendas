@@ -236,6 +236,11 @@ return [
             'text'=> 'Fabricantes',
             'icon'=> 'fas fa-truck'
             
+        ],
+        [
+            'url' => 'produtos',
+            'text' => 'Produtos',
+            'icon' => 'fas fa-boxes'
         ]
         
     ],
@@ -336,7 +341,7 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -345,6 +350,18 @@ return [
                 ],
             ],
         ],
+
+        'Axios' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//unpkg.com/axios/dist/axios.min.js',
+                ],
+            ],
+        ],
+
         'Pace' => [
             'active' => false,
             'files' => [

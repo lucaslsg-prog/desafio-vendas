@@ -17,7 +17,7 @@ class FabricanteDataTable extends DataTable
             ->eloquent($query)
             ->addColumn('action', function ($f) {
                 return link_to(route('fabricantes.edit', $f),'Editar', ['class' => 'btn btn-sm btn-primary']);
-            
+                
             })
             ->editColumn('created_at', function ($f) {
                 return $f->created_at->format('d/m/Y');

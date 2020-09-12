@@ -17,7 +17,7 @@
     (Obs: ambos os pacotes só precisa instalar, não necessita de configurações)
 --}}
 
-    @include('flash::message')
+    
 
     <div class="card card-primary">
         @if (isset($fabricante))

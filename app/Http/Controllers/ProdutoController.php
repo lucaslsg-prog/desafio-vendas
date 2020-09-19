@@ -61,19 +61,13 @@ class ProdutoController extends Controller
      * @param  \App\Models\Produto  $produto
      * @return \Illuminate\Http\Response
      */
-    public function show(ProdutoRequest $request)
+    public function show($id)
     {
-        $produto = ProdutoService::store($request->all());
-
-        if ($produto) {
-            flash('Produto cadastrado com sucesso')->success();
-
-            return back();
+        try {
+            return Produto::findOrFail($id);
+        } catch (Throwable $th) {
+            return response('Erro ao selecionar produto', 400);
         }
-
-        flash('Erro ao salvar o produto')->error();
-
-        return back()->withInput();
     }
 
     /**

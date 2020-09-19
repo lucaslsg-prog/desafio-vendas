@@ -3,7 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Cliente;
-use App\ClienteDataTable;
+use Collective\Html\FormFacade;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -22,16 +22,18 @@ class ClienteDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'clientedatatable.action');
-    }
+            ->addColumn('action', function ($c) {
+                $acoes = link_to(route('clientes.edit', $c),'Editar', ['class' => 'btn btn-sm btn-primary mr-1']);
+                $acoes .= FormFacade::button('Excluir', ['class' => 'btn btn-sm btn-danger', 'onclick' => "excluir('" . route('clientes.destroy', $c) . "')"]);
 
+                return $acoes;
+            });
+    }
     /**
      * Get query source of dataTable.
      *
-     * @param \App\ClienteDataTable $model
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(ClienteDataTable $model)
+    public function query(Cliente $model)
     {
         return $model->newQuery();
     }
@@ -44,17 +46,21 @@ class ClienteDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('clientedatatable-table')
+                    ->setTableId('cliente-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
+                        Button::make('create')
+                            ->addClass('btn btn-primary')
+                            ->text('<i class="fas fa-plus-circle"></i> Cadastrar Novo'),
+                        Button::make('export')
+                            ->addClass('btn btn-primary')
+                            ->text('<i class="fas fa-download"></i> Exportar'),
+                        Button::make('print')
+                            ->addClass('btn btn-primary')
+                            ->text('<i class="fas fa-print"></i> Imprimir')
                     );
     }
 
@@ -71,10 +77,9 @@ class ClienteDataTable extends DataTable
                   ->printable(false)
                   ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('nome'),
+            Column::make('email'),
+            Column::make('telefone')
         ];
     }
 

@@ -2,42 +2,42 @@
 
 namespace App\Services;
 
-use App\Models\Produto;
+use App\Models\Cliente;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-class ProdutoService
+class ClienteService
 {
     public static function store($request)
     {
         try {
-            return Produto::create($request);
+            return Cliente::create($request);
         } catch (Throwable $th) {
             Log::error($th->getMessage());
             return null;
         }
     }
 
-    public static function update($request, $produto)
+    public static function update($request, $cliente)
     {
         try {
-            return $produto->update($request);
+            return $cliente->update($request);
         } catch (Throwable $th) {
             Log::error($th->getMessage());
             return null;
         }
     }
 
-    public static function listaProdutos($request)
+    public static function listaClientes($request)
     {
         if (isset($request['searchTerm'])) {
-            return Produto::select('id', 'descricao as text')
-                        ->where('descricao', 'like', '%' . $request['searchTerm'] . '%')
+            return Cliente::select('id', 'nome as text')
+                        ->where('nome', 'like', '%' . $request['searchTerm'] . '%')
                         ->limit(10)
                         ->get();
         }
 
-        return Produto::select('id', 'descricao as text')
+        return Cliente::select('id', 'nome as text')
                     ->limit(10)
                     ->get();
     }

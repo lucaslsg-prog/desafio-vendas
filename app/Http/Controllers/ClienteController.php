@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ClienteDataTable;
+use App\Http\Requests\ClienteRequest;
 use App\Models\Cliente;
+use App\Services\ClienteService;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -54,7 +57,7 @@ class ClienteController extends Controller
      * @param  \App\Models\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function show(Cliente $cliente)
+    public function show(ClienteRequest $request)
     {
         //
     }
@@ -79,7 +82,17 @@ class ClienteController extends Controller
      */
     public function update(Request $request, Cliente $cliente)
     {
-        //
+        $cliente = ClienteService::update($request->all(), $cliente);
+
+        if ($cliente) {
+            flash('Cliente atualizado com sucesso')->success();
+
+            return back();
+        }
+
+        flash('Erro ao atualizar o cliente')->error();
+
+        return back()->withInput();
     }
 
     /**
@@ -90,6 +103,11 @@ class ClienteController extends Controller
      */
     public function destroy(Cliente $cliente)
     {
-        //
+       //
+    }
+
+    public function listaClientes(Request $request)
+    {
+        return ClienteService::listaClientes($request->all());
     }
 }

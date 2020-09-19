@@ -126,4 +126,9 @@ class ProdutoController extends Controller
             return response('Erro ao apagar', 400);
         }
     }
+
+    public function listaProdutos(Request $request)
+    {
+        return ProdutoService::listaProdutos($request->all());
+    }
 }

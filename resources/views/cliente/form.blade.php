@@ -1,29 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Formulário de Clientes')
+@section('title', 'Formulário de Cliente')
 
 @section('content_header')
-    <h1>Formulário do Cliente</h1>
+    <h1>Formulário de Cliente</h1>
 @stop
 
 @section('content')
-{{--
-    Para trabalhar com formulário de maneira mais simples e orientado a objetos, 
-    vamos utilizar um pacote chamado Laravel Collective, segue o link:
-    https://laravelcollective.com/docs/6.0/html
-    Para trabalhar com as mensagens de feedback (sucesso, erro etc), 
-    vamos utilizar um pacote chamado Flash, segue o link:
-    https://github.com/laracasts/flash
-    (Obs: ambos os pacotes só precisa instalar, não necessita de configurações)
---}}
-
     @include('flash::message')
 
     <div class="card card-primary">
         @if (isset($cliente))
-            {!! Form::model($cliente, ['url' => route('fabricantes.update', $fabricante), 'method' => 'put']) !!}
+            {!! Form::model($cliente, ['url' => route('clientes.update', $cliente), 'method' => 'put']) !!}
         @else
-            {!! Form::open(['url' => route('fabricantes.store')]) !!}
+            {!! Form::open(['url' => route('clientes.store')]) !!}
         @endif
             <div class="card-body">
                 <div class="form-group">
@@ -34,9 +24,51 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    {!! Form::label('site', 'Site') !!}
-                    {!! Form::text('site', null, ['class' => 'form-control']) !!}
-                    @error('site')
+                    {!! Form::label('telefone', 'Telefone') !!}
+                    {!! Form::text('telefone', null, ['class' => 'form-control']) !!}
+                    @error('telefone')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    {!! Form::label('email', 'Email') !!}
+                    {!! Form::email('email', null, ['class' => 'form-control']) !!}
+                    @error('email')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    {!! Form::label('cpf', 'CPF') !!}
+                    {!! Form::text('cpf', null, ['class' => 'form-control']) !!}
+                    @error('cpf')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    {!! Form::label('cep', 'CEP') !!}
+                    {!! Form::text('cep', null, ['class' => 'form-control', 'onfocusout' => 'buscaCep()']) !!}
+                    @error('cep')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    {!! Form::label('logradouro', 'Logradouro') !!}
+                    {!! Form::text('logradouro', null, ['class' => 'form-control']) !!}
+                    @error('logradouro')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    {!! Form::label('bairro', 'Bairro') !!}
+                    {!! Form::text('bairro', null, ['class' => 'form-control']) !!}
+                    @error('bairro')
+                        <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    {!! Form::label('localidade', 'Localidade') !!}
+                    {!! Form::text('localidade', null, ['class' => 'form-control']) !!}
+                    @error('localidade')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -47,4 +79,22 @@
             </div>
         {!! Form::close() !!}
     </div>
+@stop
+
+@section('js')
+    <script>
+        function buscaCep() {
+            let cep = document.getElementById('cep').value;
+            let url = 'https://viacep.com.br/ws/' + cep + '/json/';
+            axios.get(url)
+            .then(function (response) {
+                document.getElementById('logradouro').value = response.data.logradouro
+                document.getElementById('bairro').value = response.data.bairro
+                document.getElementById('localidade').value = response.data.localidade
+            })
+            .catch(function (error) {
+                alert('Ops! CEP não encontrado');
+            })
+        }
+    </script>
 @stop
